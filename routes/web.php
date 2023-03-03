@@ -16,4 +16,5 @@ use App\Http\Controllers\PersonController;
 
 Route::get('/', [PersonController::class, 'index']);
 Route::post('/person', [PersonController::class, 'store']);
+Route::post('/person/{id}/update', [PersonController::class, 'update']);
 Route::post('/person/{id}/destroy', [PersonController::class, 'destroy']);

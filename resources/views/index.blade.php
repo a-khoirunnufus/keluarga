@@ -5,7 +5,8 @@
 @section('content')
     <h1 class="mb-5">Keluarga</h1>
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary">Visualisasi Tree</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddPerson">+ Tambah Anggota Keluarga</button>
     </div>
 
@@ -33,7 +34,7 @@
                         @endif
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-outline-warning me-2">Edit</button>
+                        <button onclick="editPerson({{ $person->id.',\''.$person->nama.'\',\''.$person->jenis_kelamin.'\','. ($person->parent_id ? '\''.$person->parent_id.'\'' : 'null') }})" class="btn btn-sm btn-outline-warning me-2">Edit</button>
                         <button onclick="deletePerson({{ $person->id }})" class="btn btn-sm btn-outline-danger">Hapus</button>
                     </td>
                 </tr>
@@ -76,12 +77,60 @@
                             <select class="form-select" name="parent_id">
                                 <option value="null" selected>Kosong</option>
                                 @foreach($persons as $person)
-                                    <option value="{{ $person->nama }}">{{ $person->nama }}</option>
+                                    <option value="{{ $person->id }}">{{ $person->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-success">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Person -->
+    <div class="modal fade" id="modalEditPerson" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalEditPersonLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalEditPersonLabel">Edit Anggota Keluarga Baru</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nama</label>
+                            <input type="text" name="nama" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Jenis Kelamin</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" value="laki-laki" checked>
+                                <label class="form-check-label">
+                                    Laki - Laki
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" value="perempuan">
+                                <label class="form-check-label">
+                                    Perempuan
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Orang Tua</label>
+                            <select class="form-select" name="parent_id">
+                                <option value="null" selected>Kosong</option>
+                                @foreach($persons as $person)
+                                    <option value="{{ $person->id }}">{{ $person->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-warning">Edit</button>
                         </div>
                     </form>
                 </div>
@@ -118,12 +167,21 @@
         const baseUrl = "{{ url('/') }}";
 
         function deletePerson(id) {
-            console.log('deleting person with id', id);
-
             document.querySelector('#modalDeletePerson form').setAttribute('action', baseUrl+'/person/'+id+'/destroy');
 
             const modalDeletePerson = new bootstrap.Modal('#modalDeletePerson');
             modalDeletePerson.show();
         }
+
+        function editPerson(id, nama, jenisKelamin, parentId) {
+            document.querySelector('#modalEditPerson form').setAttribute('action', baseUrl+'/person/'+id+'/update');
+            document.querySelector('#modalEditPerson form input[name="nama"]').value = nama;
+            document.querySelector('#modalEditPerson form input[value="'+jenisKelamin+'"]').checked = true;
+            document.querySelector('#modalEditPerson form select[name="parent_id"]').value = parentId;
+
+            const modalEditPerson = new bootstrap.Modal('#modalEditPerson');
+            modalEditPerson.show();
+        }
+
     </script>
 @endpush

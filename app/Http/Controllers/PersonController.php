@@ -49,6 +49,37 @@ class PersonController extends Controller
         }
     }
 
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'jenis_kelamin' => 'required'
+        ]);
+
+        $data = $request->only(['nama', 'jenis_kelamin', 'parent_id']);
+
+        if($data['parent_id'] === "null") $data['parent_id'] = null;
+
+        try {
+            DB::beginTransaction();
+
+            Person::where(['id' => $id])->update($data);
+            
+            DB::commit();
+
+            $request->session()->flash('status.type', 'success');
+            $request->session()->flash('status.message', 'Berhasil mengedit data.');
+            return redirect()->back();
+
+        } catch (QueryException $ex) {
+            DB::rollback();
+
+            $request->session()->flash('status.type', 'danger');
+            $request->session()->flash('status.message', 'Gagal mengedit data: '.$ex);
+            return redirect()->back();
+        }
+    }
+
     public function destroy($id, Request $request)
     {
         try {
