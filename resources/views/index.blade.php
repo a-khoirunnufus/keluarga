@@ -6,7 +6,7 @@
     <h1 class="mb-5">Keluarga</h1>
 
     <div class="d-flex justify-content-between mb-3">
-        <button class="btn btn-primary">Visualisasi Tree</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTree">Visualisasi Tree</button>
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddPerson">+ Tambah Anggota Keluarga</button>
     </div>
 
@@ -41,6 +41,21 @@
             @endforeach
         </tbody>
     </table>
+
+    <!-- Modal Tree -->
+    <div class="modal fade" id="modalTree" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalTreeLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalTreeLabel">Visualisasi Tree</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="tree-simple"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Add Person -->
     <div class="modal fade" id="modalAddPerson" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalAddPersonLabel" aria-hidden="true">
@@ -139,11 +154,11 @@
     </div>
 
     <!-- Modal Delete Person -->
-    <div class="modal fade" id="modalDeletePerson" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalAddPersonLabel" aria-hidden="true">
+    <div class="modal fade" id="modalDeletePerson" tabindex="-1" data-bs-backdrop="static" aria-labelledby="modalDeletePersonLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalAddPersonLabel">Hapus Anggota Keluarga</h1>
+                    <h1 class="modal-title fs-5" id="modalDeletePersonLabel">Hapus Anggota Keluarga</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -160,11 +175,56 @@
         </div>
     </div>
 
+    <style>
+        .nodeExample1 {
+            padding: .5rem 1rem;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+        }
+        .nodeExample1[data-gender="male"] {
+            background-color: blue;
+        }
+        .nodeExample1[data-gender="female"] {
+            background-color: deeppink;
+        }
+        .node-name {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+
 @endsection
 
 @push('scripts')
     <script>
         const baseUrl = "{{ url('/') }}";
+
+        let simple_chart_config = {
+            chart: {
+                container: "#tree-simple",
+                connectors: { type: 'step' },
+                node: {
+                    HTMLclass: 'nodeExample1',
+                }
+            },    
+            nodeStructure: null,
+        };
+
+        document.getElementById('modalTree').addEventListener('shown.bs.modal', event => {
+            document.querySelector('#modalTree .modal-body').innerHTML = '<p class="text-center fw-bold">Loading...</p>';
+            fetch(baseUrl+'/api/person/tree')
+                .then(res => res.json())
+                .then(({data}) => {
+                    simple_chart_config.nodeStructure = data;
+                    document.querySelector('#modalTree .modal-body').innerHTML = '<div id="tree-simple"></div>';
+                    const chart = new Treant(simple_chart_config);
+                });
+        });
 
         function deletePerson(id) {
             document.querySelector('#modalDeletePerson form').setAttribute('action', baseUrl+'/person/'+id+'/destroy');

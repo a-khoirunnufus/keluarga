@@ -19,4 +19,9 @@ class Person extends Model
     {
         return $this->belongsTo(Person::class, 'parent_id', 'id');
     }
+
+    public function children()
+    {
+        return $this->hasMany(Person::class, 'parent_id', 'id');
+    }
 }
