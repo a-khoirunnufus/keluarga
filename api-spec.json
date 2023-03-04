@@ -773,40 +773,35 @@
         "properties": {
           "nama": {
             "type": "string",
-            "minLength": 1,
-            "required": true
+            "minLength": 1
           },
           "jenisKelamin": {
             "type": "string",
-            "enum": ["laki-laki", "perempuan"],
-            "required": true
+            "enum": ["laki-laki", "perempuan"]
           },
           "parentId": {
             "type": "integer",
             "minimum": 1,
-            "nullable": true,
-            "required": true
+            "nullable": true
           }
-        }
+        },
+        "required": ["nama", "jenisKelamin", "parentId"]
       },
       "UpdatePerson": {
         "type": "object",
         "properties": {
           "nama": {
             "type": "string",
-            "minLength": 1,
-            "required": false
+            "minLength": 1
           },
           "jenisKelamin": {
             "type": "string",
-            "enum": ["laki-laki", "perempuan"],
-            "required": false
+            "enum": ["laki-laki", "perempuan"]
           },
           "parentId": {
             "type": "integer",
             "minimum": 1,
-            "nullable": true,
-            "required": false
+            "nullable": true
           }
         }
       },
@@ -861,10 +856,10 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TreeNode"
-            },
-            "required": false
+            }
           }
-        }
+        },
+        "required": ["text"]
       }
     },
     "responses": {
