@@ -1,0 +1,638 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"Keluarga API",
+    "version":"1.0"
+  },
+  "servers": [
+    {"url":"http://127.0.0.1:8000/api"}
+  ],
+  "paths": {
+    "/person": {
+      "get": {
+        "tags": ["Person"],
+        "summary": "Mendapatkan semua data person",
+        "description": "Mendapatkan semua data person",
+        "parameters": [
+          {
+            "name": "nama",
+            "description": "Filter person berdasarkan nama",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
+            "name": "jenisKelamin",
+            "description": "Filter person berdasarkan jenis kelamin",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["laki-laki", "perempuan"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan semua data person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "nama": {
+                        "type": "string"
+                      },
+                      "jenisKelamin": {
+                        "type": "string",
+                        "enum": ["laki-laki", "perempuan"]
+                      },
+                      "parentId": {
+                        "type": "integer",
+                        "nullable": true
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh berhasil mendapatkan semua data person",
+                    "value": [
+                      {
+                        "id": 1,
+                        "nama": "Budi",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": null
+                      },
+                      {
+                        "id": 2,
+                        "nama": "Dedi",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": 1
+                      },
+                      {
+                        "id": 3,
+                        "nama": "Dodi",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": 1
+                      },
+                      {
+                        "id": 4,
+                        "nama": "Dede",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": 1
+                      },
+                      {
+                        "id": 5,
+                        "nama": "Dewi",
+                        "jenisKelamin": "perempuan",
+                        "parentId": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Person"],
+        "summary": "Menambahkan record person baru",
+        "description": "Menambahkan record person baru",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nama": {
+                    "type": "string",
+                    "minLength": 1,
+                    "required": true
+                  },
+                  "jenisKelamin": {
+                    "type": "string",
+                    "enum": ["laki-laki", "perempuan"],
+                    "required": true
+                  },
+                  "parentId": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "required": true
+                  }
+                }
+              },
+              "examples": {
+                "default": {
+                  "nama": "Ahmad",
+                  "jenisKelamin": "laki-laki",
+                  "parentId": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Berhasil menambahkan record person baru",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "jenisKelamin": {
+                      "type": "string",
+                      "enum": ["laki-laki", "perempuan"]
+                    },
+                    "parentId": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh berhasil menambahkan record person baru",
+                    "value": {
+                      "id": 1,
+                      "nama": "Budi",
+                      "jenisKelamin": "laki-laki",
+                      "parentId": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Gagal menambahkan record person baru",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "description": "Pesan yang menjelaskan error yang terjadi",
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh gagal menambahkan record person baru",
+                    "value": {
+                      "error": "Tidak dapat menemukan parentId"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/person/{personId}": {
+      "get": {
+        "tags": ["Person"],
+        "summary": "Mendapatkan detail person tertentu",
+        "description": "Mendapatkan detail person tertentu",
+        "parameters": [
+          {
+            "name": "personId",
+            "description": "Id milik person",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan detail person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "jenisKelamin": {
+                      "type": "string",
+                      "enum": ["laki-laki", "perempuan"]
+                    },
+                    "parentId": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh berhasil mendapatkan detail person",
+                    "value": {
+                      "id": 1,
+                      "nama": "Budi",
+                      "jenisKelamin": "laki-laki",
+                      "parentId": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tidak dapat menemukan person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "description": "Pesan yang menjelaskan error yang terjadi",
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh gagal menemukan person",
+                    "value": {
+                      "error": "Person tidak tersedia"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Person"],
+        "summary": "Mengedit data person tertentu",
+        "description": "Mengedit data person tertentu",
+        "parameters": [
+          {
+            "name": "personId",
+            "description": "Id milik person",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nama": {
+                    "type": "string",
+                    "minLength": 1,
+                    "required": false
+                  },
+                  "jenisKelamin": {
+                    "type": "string",
+                    "enum": ["laki-laki", "perempuan"],
+                    "required": false
+                  },
+                  "parentId": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "required": false
+                  }
+                },
+                "example": {
+                  "nama": "Ahmad",
+                  "jenisKelamin": "laki-laki",
+                  "parentId": 1
+                }
+              }
+            }
+          }
+        },
+        "responses": {}
+      },
+      "delete": {
+        "tags": ["Person"],
+        "summary": "Menghapus suatu person",
+        "description": "Menghapus suatu person",
+        "parameters": [
+          {
+            "name": "personId",
+            "description": "Id milik person",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/family/grandparent/{personId}": {
+      "get": {
+        "tags": ["Family"]
+      }
+    },
+    "/family/parent/{personId}": {
+      "get": {
+        "tags": ["Family"]
+      }
+    },
+    "/family/children/{personId}": {
+      "get": {
+        "tags": ["Family"],
+        "parameters": [
+          {
+            "name": "jenisKelamin",
+            "description": "Filter person berdasarkan jenis kelamin",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["laki-laki", "perempuan"]
+            }
+          }
+        ]
+      }
+    },
+    "/family/grandchild/{personId}": {
+      "get": {
+        "tags": ["Family"],
+        "parameters": [
+          {
+            "name": "jenisKelamin",
+            "description": "Filter person berdasarkan jenis kelamin",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["laki-laki", "perempuan"]
+            }
+          }
+        ]
+      }
+    },
+    "/family/aunt/{personId}": {
+      "get": {
+        "tags": ["Family"]
+      }
+    },
+    "/family/uncle/{personId}": {
+      "get": {
+        "tags": ["Family"]
+      }
+    },
+    "/family/cousin/{personId}": {
+      "get": {
+        "tags": ["Family"],
+        "parameters": [
+          {
+            "name": "jenisKelamin",
+            "description": "Filter person berdasarkan jenis kelamin",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["laki-laki", "perempuan"]
+            }
+          }
+        ]
+      }
+    },
+    "/family/tree": {
+      "get": {
+        "tags": ["Family"],
+        "summary": "Mendapatkan hirarki keluarga dalam bentuk tree",
+        "description": "Mendapatkan hirarki keluarga dalam bentuk tree",
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "personIdParam": {
+        "name": "personId",
+        "description": "Id milik person",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "jenisKelaminParam": {
+        "name": "jenisKelamin",
+        "description": "Filter person berdasarkan jenis kelamin",
+        "required": false,
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["laki-laki", "perempuan"]
+        }
+      }
+    },
+    "schemas": {
+      "Person": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nama": {
+            "type": "string"
+          },
+          "jenisKelamin": {
+            "type": "string",
+            "enum": ["laki-laki", "perempuan"]
+          },
+          "parentId": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePerson": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "minLength": 1,
+            "required": true
+          },
+          "jenisKelamin": {
+            "type": "string",
+            "enum": ["laki-laki", "perempuan"],
+            "required": true
+          },
+          "parentId": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true,
+            "required": true
+          }
+        }
+      },
+      "UpdatePerson": {
+        "type": "object",
+        "properties": {
+          "nama": {
+            "type": "string",
+            "minLength": 1,
+            "required": false
+          },
+          "jenisKelamin": {
+            "type": "string",
+            "enum": ["laki-laki", "perempuan"],
+            "required": false
+          },
+          "parentId": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true,
+            "required": false
+          }
+        }
+      },
+      "People": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "nama": {
+              "type": "string"
+            },
+            "jenisKelamin": {
+              "type": "string",
+              "enum": ["laki-laki", "perempuan"]
+            },
+            "parentId": {
+              "type": "integer",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Pesan yang menjelaskan error yang terjadi",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Tidak dapat menemukan person",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "description": "Pesan yang menjelaskan error yang terjadi",
+                  "type": "string"
+                }
+              }
+            },
+            "examples": {
+              "default": {
+                "description": "Contoh gagal menemukan person",
+                "value": {
+                  "error": "Person tidak tersedia"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "Person": {
+        "description": "Contoh berhasil mendapatkan detail person",
+        "value": {
+          "id": 1,
+          "nama": "Budi",
+          "jenisKelamin": "laki-laki",
+          "parentId": null
+        }
+      },
+      "CreateOrUpdatePerson": {
+        "description": "Contoh data untuk create/edit person",
+        "value": {
+          "nama": "Ahmad",
+          "jenisKelamin": "laki-laki",
+          "parentId": 1
+        }
+      },
+      "People": {
+        "description": "Contoh berhasil mendapatkan semua data person",
+        "value": [
+          {
+            "id": 1,
+            "nama": "Budi",
+            "jenisKelamin": "laki-laki",
+            "parentId": null
+          },
+          {
+            "id": 2,
+            "nama": "Dedi",
+            "jenisKelamin": "laki-laki",
+            "parentId": 1
+          },
+          {
+            "id": 3,
+            "nama": "Dodi",
+            "jenisKelamin": "laki-laki",
+            "parentId": 1
+          },
+          {
+            "id": 4,
+            "nama": "Dede",
+            "jenisKelamin": "laki-laki",
+            "parentId": 1
+          },
+          {
+            "id": 5,
+            "nama": "Dewi",
+            "jenisKelamin": "perempuan",
+            "parentId": 1
+          }
+        ]
+      }
+    }
+  }
+}
