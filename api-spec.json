@@ -15,24 +15,10 @@
         "description": "Mendapatkan semua data person",
         "parameters": [
           {
-            "name": "nama",
-            "description": "Filter person berdasarkan nama",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "minLength": 1
-            }
+            "$ref": "#/components/parameters/namaParam"
           },
           {
-            "name": "jenisKelamin",
-            "description": "Filter person berdasarkan jenis kelamin",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": ["laki-laki", "perempuan"]
-            }
+            "$ref": "#/components/parameters/jenisKelaminParam"
           }
         ],
         "responses": {
@@ -41,62 +27,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "integer"
-                      },
-                      "nama": {
-                        "type": "string"
-                      },
-                      "jenisKelamin": {
-                        "type": "string",
-                        "enum": ["laki-laki", "perempuan"]
-                      },
-                      "parentId": {
-                        "type": "integer",
-                        "nullable": true
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/People"
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh berhasil mendapatkan semua data person",
-                    "value": [
-                      {
-                        "id": 1,
-                        "nama": "Budi",
-                        "jenisKelamin": "laki-laki",
-                        "parentId": null
-                      },
-                      {
-                        "id": 2,
-                        "nama": "Dedi",
-                        "jenisKelamin": "laki-laki",
-                        "parentId": 1
-                      },
-                      {
-                        "id": 3,
-                        "nama": "Dodi",
-                        "jenisKelamin": "laki-laki",
-                        "parentId": 1
-                      },
-                      {
-                        "id": 4,
-                        "nama": "Dede",
-                        "jenisKelamin": "laki-laki",
-                        "parentId": 1
-                      },
-                      {
-                        "id": 5,
-                        "nama": "Dewi",
-                        "jenisKelamin": "perempuan",
-                        "parentId": 1
-                      }
-                    ]
+                    "$ref": "#/components/examples/People"
                   }
                 }
               }
@@ -113,30 +48,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "nama": {
-                    "type": "string",
-                    "minLength": 1,
-                    "required": true
-                  },
-                  "jenisKelamin": {
-                    "type": "string",
-                    "enum": ["laki-laki", "perempuan"],
-                    "required": true
-                  },
-                  "parentId": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "required": true
-                  }
-                }
+                "$ref": "#/components/schemas/CreatePerson"
               },
               "examples": {
                 "default": {
-                  "nama": "Ahmad",
-                  "jenisKelamin": "laki-laki",
-                  "parentId": 1
+                  "$ref": "#/components/examples/CreateOrUpdatePerson"
                 }
               }
             }
@@ -148,33 +64,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "nama": {
-                      "type": "string"
-                    },
-                    "jenisKelamin": {
-                      "type": "string",
-                      "enum": ["laki-laki", "perempuan"]
-                    },
-                    "parentId": {
-                      "type": "integer",
-                      "nullable": true
-                    }
-                  }
+                  "$ref": "#/components/schemas/Person"
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh berhasil menambahkan record person baru",
-                    "value": {
-                      "id": 1,
-                      "nama": "Budi",
-                      "jenisKelamin": "laki-laki",
-                      "parentId": null
-                    }
+                    "$ref": "#/components/examples/Person"
                   }
                 }
               }
@@ -185,13 +79,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "description": "Pesan yang menjelaskan error yang terjadi",
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Error"
                 },
                 "examples": {
                   "default": {
@@ -214,14 +102,7 @@
         "description": "Mendapatkan detail person tertentu",
         "parameters": [
           {
-            "name": "personId",
-            "description": "Id milik person",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            }
+            "$ref": "#/components/parameters/personIdParam"
           }
         ],
         "responses": {
@@ -230,61 +111,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer"
-                    },
-                    "nama": {
-                      "type": "string"
-                    },
-                    "jenisKelamin": {
-                      "type": "string",
-                      "enum": ["laki-laki", "perempuan"]
-                    },
-                    "parentId": {
-                      "type": "integer",
-                      "nullable": true
-                    }
-                  }
+                  "$ref": "#/components/schemas/Person"
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh berhasil mendapatkan detail person",
-                    "value": {
-                      "id": 1,
-                      "nama": "Budi",
-                      "jenisKelamin": "laki-laki",
-                      "parentId": null
-                    }
+                    "$ref": "#/components/examples/Person"
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Tidak dapat menemukan person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "description": "Pesan yang menjelaskan error yang terjadi",
-                      "type": "string"
-                    }
-                  }
-                },
-                "examples": {
-                  "default": {
-                    "description": "Contoh gagal menemukan person",
-                    "value": {
-                      "error": "Person tidak tersedia"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/NotFound"
           }
         }
       },
@@ -294,14 +132,7 @@
         "description": "Mengedit data person tertentu",
         "parameters": [
           {
-            "name": "personId",
-            "description": "Id milik person",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            }
+            "$ref": "#/components/parameters/personIdParam"
           }
         ],
         "requestBody": {
@@ -309,34 +140,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "nama": {
-                    "type": "string",
-                    "minLength": 1,
-                    "required": false
-                  },
-                  "jenisKelamin": {
-                    "type": "string",
-                    "enum": ["laki-laki", "perempuan"],
-                    "required": false
-                  },
-                  "parentId": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "required": false
-                  }
-                },
-                "example": {
-                  "nama": "Ahmad",
-                  "jenisKelamin": "laki-laki",
-                  "parentId": 1
+                "$ref": "#/components/schemas/UpdatePerson"
+              },
+              "examples": {
+                "default": {
+                  "$ref": "#/components/examples/CreateOrUpdatePerson"
                 }
               }
             }
           }
         },
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Berhasil mengedit data person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/Person"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "Gagal mengedit data person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh gagal menambahkan record person baru",
+                    "value": {
+                      "error": "Tidak dapat menemukan parentId"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
         "tags": ["Person"],
@@ -344,88 +195,450 @@
         "description": "Menghapus suatu person",
         "parameters": [
           {
-            "name": "personId",
-            "description": "Id milik person",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "minimum": 1
-            }
+            "$ref": "#/components/parameters/personIdParam"
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Berhasil menghapus person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "description": "Pesan berhasil menghapus person",
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh berhasil menghapus person",
+                    "value": {
+                      "success": "Berhasil menghapus person"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "description": "Gagal menghapus person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh gagal menghapus person",
+                    "value": {
+                      "error": "Person ini memiliki children"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/family/grandparent/{personId}": {
       "get": {
-        "tags": ["Family"]
+        "tags": ["Family"],
+        "summary": "Mendapatkan grandparent dari person tertentu",
+        "description": "Mendapatkan grandparent dari person tertentu",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/personIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan grandparent dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/Person"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki grandparent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki grandparent",
+                    "value": {
+                      "message": "Person tidak memiliki grandparent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/parent/{personId}": {
       "get": {
-        "tags": ["Family"]
-      }
-    },
-    "/family/children/{personId}": {
-      "get": {
         "tags": ["Family"],
+        "summary": "Mendapatkan parent dari person tertentu",
+        "description": "Mendapatkan parent dari person tertentu",
         "parameters": [
           {
-            "name": "jenisKelamin",
-            "description": "Filter person berdasarkan jenis kelamin",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": ["laki-laki", "perempuan"]
-            }
+            "$ref": "#/components/parameters/personIdParam"
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan parent dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/Person"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki parent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki parent",
+                    "value": {
+                      "message": "Person tidak memiliki parent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/family/child/{personId}": {
+      "get": {
+        "tags": ["Family"],
+        "summary": "Mendapatkan child dari person tertentu",
+        "description": "Mendapatkan child dari person tertentu",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/personIdParam"
+          },
+          {
+            "$ref": "#/components/parameters/jenisKelaminParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan child dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/People"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/People"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki child",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki child",
+                    "value": {
+                      "message": "Person tidak memiliki child"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/grandchild/{personId}": {
       "get": {
         "tags": ["Family"],
+        "summary": "Mendapatkan grandchild dari person tertentu",
+        "description": "Mendapatkan grandchild dari person tertentu",
         "parameters": [
           {
-            "name": "jenisKelamin",
-            "description": "Filter person berdasarkan jenis kelamin",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": ["laki-laki", "perempuan"]
-            }
+            "$ref": "#/components/parameters/personIdParam"
+          },
+          {
+            "$ref": "#/components/parameters/jenisKelaminParam"
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan grandchild dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/People"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/People"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki grandchild",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki grandchild",
+                    "value": {
+                      "message": "Person tidak memiliki grandchild"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/aunt/{personId}": {
       "get": {
-        "tags": ["Family"]
+        "tags": ["Family"],
+        "summary": "Mendapatkan aunt dari person tertentu",
+        "description": "Mendapatkan aunt dari person tertentu",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/personIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan aunt dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/People"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/People"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki aunt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki aunt",
+                    "value": {
+                      "message": "Person tidak memiliki aunt"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/uncle/{personId}": {
       "get": {
-        "tags": ["Family"]
+        "tags": ["Family"],
+        "summary": "Mendapatkan uncle dari person tertentu",
+        "description": "Mendapatkan uncle dari person tertentu",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/personIdParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan uncle dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/People"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/People"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki uncle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki uncle",
+                    "value": {
+                      "message": "Person tidak memiliki uncle"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/cousin/{personId}": {
       "get": {
         "tags": ["Family"],
+        "summary": "Mendapatkan cousin dari person tertentu",
+        "description": "Mendapatkan cousin dari person tertentu",
         "parameters": [
           {
-            "name": "jenisKelamin",
-            "description": "Filter person berdasarkan jenis kelamin",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": ["laki-laki", "perempuan"]
-            }
+            "$ref": "#/components/parameters/personIdParam"
+          },
+          {
+            "$ref": "#/components/parameters/jenisKelaminParam"
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan cousin dari person",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/People"
+                },
+                "examples": {
+                  "default": {
+                    "$ref": "#/components/examples/People"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Person tidak memiliki cousin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh person tidak memiliki cousin",
+                    "value": {
+                      "message": "Person tidak memiliki cousin"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/family/tree": {
@@ -433,7 +646,72 @@
         "tags": ["Family"],
         "summary": "Mendapatkan hirarki keluarga dalam bentuk tree",
         "description": "Mendapatkan hirarki keluarga dalam bentuk tree",
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Berhasil mendapatkan hirarki keluarga",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreeNode"
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh hirakri keluarga",
+                    "value": {
+                      "text": {
+                        "name": "Budi",
+                        "data-gender": "laki-laki"
+                      },
+                      "children": [
+                        {
+                          "text": {
+                            "name": "Dodi",
+                            "data-gender": "laki-laki"
+                          }
+                        },
+                        {
+                          "text": {
+                            "name": "Dedi",
+                            "data-gender": "laki-laki"
+                          }
+                        },
+                        {
+                          "text": {
+                            "name": "Dede",
+                            "data-gender": "laki-laki"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Hirarki keluarga tidak tersedia",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh hirakri keluarga tidak tersedia",
+                    "value": {
+                      "message": "Hirarki keluarga tidak tersedia"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -447,6 +725,16 @@
         "schema": {
           "type": "integer",
           "minimum": 1
+        }
+      },
+      "namaParam": {
+        "name": "nama",
+        "description": "Filter person berdasarkan nama",
+        "required": false,
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "minLength": 1
         }
       },
       "jenisKelaminParam": {
@@ -550,6 +838,31 @@
           "error": {
             "description": "Pesan yang menjelaskan error yang terjadi",
             "type": "string"
+          }
+        }
+      },
+      "TreeNode": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "data-gender": {
+                "type": "string",
+                "enum": ["laki-laki", "perempuan"]
+              }
+            }
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TreeNode"
+            },
+            "required": false
           }
         }
       }
