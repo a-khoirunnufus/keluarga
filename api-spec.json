@@ -476,6 +476,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/InvalidParam"
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
@@ -568,6 +571,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParam"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -818,6 +824,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/InvalidParam"
+          },
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
@@ -871,7 +880,7 @@
               }
             }
           },
-          "204": {
+          "404": {
             "description": "Hirarki keluarga tidak tersedia",
             "content": {
               "application/json": {
@@ -888,6 +897,24 @@
                     "description": "Contoh hirakri keluarga tidak tersedia",
                     "value": {
                       "message": "Hirarki keluarga tidak tersedia"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Gagal mendapatkan hirarki keluarga",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "default": {
+                    "description": "Contoh gagal mendapatkan hirarki keluarga",
+                    "value": {
+                      "error": "Gagal mendapatkan hirarki keluarga"
                     }
                   }
                 }
@@ -1038,7 +1065,17 @@
           "children": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TreeNode"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "data-gender": {
+                  "type": "string",
+                  "enum": ["laki-laki", "perempuan"]
+                }
+              }
             }
           }
         },
@@ -1106,6 +1143,49 @@
                 "value": {
                   "nama": [
                     "The nama field is required."
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidParam": {
+        "description": "Validasi parameter gagal",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi parameter gagal",
+                    "type": "string"
+                  }
+                },
+                "jenisKelamin": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi parameter gagal",
+                    "type": "string"
+                  }
+                },
+                "parentId": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi parameter gagal",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "examples": {
+              "default": {
+                "description": "Contoh validasi parameter gagal",
+                "value": {
+                  "jenisKelamin": [
+                    "The selected jenis kelamin is invalid."
                   ]
                 }
               }

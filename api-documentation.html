@@ -726,11 +726,94 @@
     }
   }
 };
-            defs["inline_response_204"] = {
+            defs["inline_response_200_1"] = {
   "type" : "object",
   "properties" : {
-    "message" : {
+    "result" : {
+      "$ref" : "#/components/schemas/inline_response_200_1_result"
+    }
+  }
+};
+            defs["inline_response_200_1_result"] = {
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer"
+    },
+    "nama" : {
       "type" : "string"
+    },
+    "jenisKelamin" : {
+      "type" : "string",
+      "enum" : [ "laki-laki", "perempuan" ]
+    },
+    "parentId" : {
+      "type" : "integer",
+      "nullable" : true
+    }
+  },
+  "nullable" : true
+};
+            defs["inline_response_200_2"] = {
+  "type" : "object",
+  "properties" : {
+    "result" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/People_inner"
+      }
+    }
+  }
+};
+            defs["inline_response_400"] = {
+  "type" : "object",
+  "properties" : {
+    "nama" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi gagal"
+      }
+    },
+    "jenisKelamin" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi gagal"
+      }
+    },
+    "parentId" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi gagal"
+      }
+    }
+  }
+};
+            defs["inline_response_400_1"] = {
+  "type" : "object",
+  "properties" : {
+    "nama" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi parameter gagal"
+      }
+    },
+    "jenisKelamin" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi parameter gagal"
+      }
+    },
+    "parentId" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "description" : "pesan keterangan validasi parameter gagal"
+      }
     }
   }
 };
@@ -740,6 +823,14 @@
     "error" : {
       "type" : "string",
       "description" : "Pesan yang menjelaskan error yang terjadi"
+    }
+  }
+};
+            defs["inline_response_404_1"] = {
+  "type" : "object",
+  "properties" : {
+    "message" : {
+      "type" : "string"
     }
   }
 };
@@ -797,7 +888,7 @@
     "children" : {
       "type" : "array",
       "items" : {
-        "$ref" : "#/components/schemas/TreeNode"
+        "$ref" : "#/components/schemas/TreeNode_text"
       }
     }
   }
@@ -963,7 +1054,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            People result = apiInstance.familyAuntPersonIdGet(personId);
+            inline_response_200_2 result = apiInstance.familyAuntPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyAuntPersonIdGet");
@@ -982,7 +1073,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            People result = apiInstance.familyAuntPersonIdGet(personId);
+            inline_response_200_2 result = apiInstance.familyAuntPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyAuntPersonIdGet");
@@ -1002,7 +1093,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 
 // Mendapatkan aunt dari person tertentu
 [apiInstance familyAuntPersonIdGetWith:personId
-              completionHandler: ^(People output, NSError* error) {
+              completionHandler: ^(inline_response_200_2 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1053,7 +1144,7 @@ namespace Example
             try
             {
                 // Mendapatkan aunt dari person tertentu
-                People result = apiInstance.familyAuntPersonIdGet(personId);
+                inline_response_200_2 result = apiInstance.familyAuntPersonIdGet(personId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1156,7 +1247,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Berhasil mendapatkan aunt dari person </h3>
+                            <h3> Status: 200 - Berhasil mendapatkan aunts dari person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1171,15 +1262,29 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Berhasil mendapatkan aunt dari person",
+  "description" : "Berhasil mendapatkan aunts dari person",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/People"
+        "$ref" : "#/components/schemas/inline_response_200_2"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/People"
+          "description" : "Contoh hasil aunts",
+          "value" : {
+            "result" : [ {
+              "id" : 5,
+              "nama" : "Dewi",
+              "jenisKelamin" : "perempuan",
+              "parentId" : 1
+            } ]
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil aunts tidak tersedia",
+          "value" : {
+            "result" : [ ]
+          }
         }
       }
     }
@@ -1206,62 +1311,6 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-familyAuntPersonIdGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 204 - Person tidak memiliki aunt </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyAuntPersonIdGet-204-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyAuntPersonIdGet-204-schema">
-                                  <div id='responses-familyAuntPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Person tidak memiliki aunt",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
-      },
-      "examples" : {
-        "default" : {
-          "description" : "Contoh person tidak memiliki aunt",
-          "value" : {
-            "message" : "Person tidak memiliki aunt"
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyAuntPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyAuntPersonIdGet-204-schema-204');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-familyAuntPersonIdGet-204-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1377,7 +1426,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyChildPersonIdGet");
@@ -1397,7 +1446,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyChildPersonIdGet");
@@ -1419,7 +1468,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 // Mendapatkan child dari person tertentu
 [apiInstance familyChildPersonIdGetWith:personId
     jenisKelamin:jenisKelamin
-              completionHandler: ^(People output, NSError* error) {
+              completionHandler: ^(inline_response_200_2 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1473,7 +1522,7 @@ namespace Example
             try
             {
                 // Mendapatkan child dari person tertentu
-                People result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
+                inline_response_200_2 result = apiInstance.familyChildPersonIdGet(personId, jenisKelamin);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1605,7 +1654,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Berhasil mendapatkan child dari person </h3>
+                            <h3> Status: 200 - Berhasil mendapatkan children dari person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -1620,15 +1669,44 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Berhasil mendapatkan child dari person",
+  "description" : "Berhasil mendapatkan children dari person",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/People"
+        "$ref" : "#/components/schemas/inline_response_200_2"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/People"
+          "description" : "Contoh hasil children",
+          "value" : {
+            "result" : [ {
+              "id" : 2,
+              "nama" : "Dedi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 3,
+              "nama" : "Dodi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 4,
+              "nama" : "Dede",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 5,
+              "nama" : "Dewi",
+              "jenisKelamin" : "perempuan",
+              "parentId" : 1
+            } ]
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil children tidak tersedia",
+          "value" : {
+            "result" : [ ]
+          }
         }
       }
     }
@@ -1658,32 +1736,32 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 204 - Person tidak memiliki child </h3>
+                            <h3> Status: 400 - Validasi parameter gagal </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyChildPersonIdGet-204-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-familyChildPersonIdGet-400-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyChildPersonIdGet-204-schema">
-                                  <div id='responses-familyChildPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-familyChildPersonIdGet-400-schema">
+                                  <div id='responses-familyChildPersonIdGet-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Person tidak memiliki child",
+  "description" : "Validasi parameter gagal",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
+        "$ref" : "#/components/schemas/inline_response_400_1"
       },
       "examples" : {
         "default" : {
-          "description" : "Contoh person tidak memiliki child",
+          "description" : "Contoh validasi parameter gagal",
           "value" : {
-            "message" : "Person tidak memiliki child"
+            "jenisKelamin" : [ "The selected jenis kelamin is invalid." ]
           }
         }
       }
@@ -1703,14 +1781,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyChildPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyChildPersonIdGet-204-schema-204');
+                                        $('#responses-familyChildPersonIdGet-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-familyChildPersonIdGet-400-schema-400');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-familyChildPersonIdGet-204-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-familyChildPersonIdGet-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -1826,7 +1904,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyCousinPersonIdGet");
@@ -1846,7 +1924,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyCousinPersonIdGet");
@@ -1868,7 +1946,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 // Mendapatkan cousin dari person tertentu
 [apiInstance familyCousinPersonIdGetWith:personId
     jenisKelamin:jenisKelamin
-              completionHandler: ^(People output, NSError* error) {
+              completionHandler: ^(inline_response_200_2 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1922,7 +2000,7 @@ namespace Example
             try
             {
                 // Mendapatkan cousin dari person tertentu
-                People result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
+                inline_response_200_2 result = apiInstance.familyCousinPersonIdGet(personId, jenisKelamin);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2054,7 +2132,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Berhasil mendapatkan cousin dari person </h3>
+                            <h3> Status: 200 - Berhasil mendapatkan cousins dari person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -2069,15 +2147,44 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Berhasil mendapatkan cousin dari person",
+  "description" : "Berhasil mendapatkan cousins dari person",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/People"
+        "$ref" : "#/components/schemas/inline_response_200_2"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/People"
+          "description" : "Contoh hasil cousins",
+          "value" : {
+            "result" : [ {
+              "id" : 2,
+              "nama" : "Dedi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 3,
+              "nama" : "Dodi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 4,
+              "nama" : "Dede",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 5,
+              "nama" : "Dewi",
+              "jenisKelamin" : "perempuan",
+              "parentId" : 1
+            } ]
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil cousins tidak tersedia",
+          "value" : {
+            "result" : [ ]
+          }
         }
       }
     }
@@ -2107,32 +2214,32 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 204 - Person tidak memiliki cousin </h3>
+                            <h3> Status: 400 - Validasi parameter gagal </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyCousinPersonIdGet-204-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-familyCousinPersonIdGet-400-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyCousinPersonIdGet-204-schema">
-                                  <div id='responses-familyCousinPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-familyCousinPersonIdGet-400-schema">
+                                  <div id='responses-familyCousinPersonIdGet-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Person tidak memiliki cousin",
+  "description" : "Validasi parameter gagal",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
+        "$ref" : "#/components/schemas/inline_response_400_1"
       },
       "examples" : {
         "default" : {
-          "description" : "Contoh person tidak memiliki cousin",
+          "description" : "Contoh validasi parameter gagal",
           "value" : {
-            "message" : "Person tidak memiliki cousin"
+            "jenisKelamin" : [ "The selected jenis kelamin is invalid." ]
           }
         }
       }
@@ -2152,14 +2259,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyCousinPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyCousinPersonIdGet-204-schema-204');
+                                        $('#responses-familyCousinPersonIdGet-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-familyCousinPersonIdGet-400-schema-400');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-familyCousinPersonIdGet-204-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-familyCousinPersonIdGet-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -2275,7 +2382,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyGrandchildPersonIdGet");
@@ -2295,7 +2402,7 @@ public class FamilyApiExample {
         Integer personId = 56; // Integer | Id milik person
         String jenisKelamin = jenisKelamin_example; // String | Filter person berdasarkan jenis kelamin
         try {
-            People result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
+            inline_response_200_2 result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyGrandchildPersonIdGet");
@@ -2317,7 +2424,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 // Mendapatkan grandchild dari person tertentu
 [apiInstance familyGrandchildPersonIdGetWith:personId
     jenisKelamin:jenisKelamin
-              completionHandler: ^(People output, NSError* error) {
+              completionHandler: ^(inline_response_200_2 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2371,7 +2478,7 @@ namespace Example
             try
             {
                 // Mendapatkan grandchild dari person tertentu
-                People result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
+                inline_response_200_2 result = apiInstance.familyGrandchildPersonIdGet(personId, jenisKelamin);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2503,7 +2610,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Berhasil mendapatkan grandchild dari person </h3>
+                            <h3> Status: 200 - Berhasil mendapatkan grandchildren dari person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -2518,15 +2625,44 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Berhasil mendapatkan grandchild dari person",
+  "description" : "Berhasil mendapatkan grandchildren dari person",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/People"
+        "$ref" : "#/components/schemas/inline_response_200_2"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/People"
+          "description" : "Contoh hasil grandchildren",
+          "value" : {
+            "result" : [ {
+              "id" : 2,
+              "nama" : "Dedi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 3,
+              "nama" : "Dodi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 4,
+              "nama" : "Dede",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 5,
+              "nama" : "Dewi",
+              "jenisKelamin" : "perempuan",
+              "parentId" : 1
+            } ]
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil grandchildren tidak tersedia",
+          "value" : {
+            "result" : [ ]
+          }
         }
       }
     }
@@ -2556,32 +2692,32 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 204 - Person tidak memiliki grandchild </h3>
+                            <h3> Status: 400 - Validasi parameter gagal </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyGrandchildPersonIdGet-204-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-familyGrandchildPersonIdGet-400-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyGrandchildPersonIdGet-204-schema">
-                                  <div id='responses-familyGrandchildPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-familyGrandchildPersonIdGet-400-schema">
+                                  <div id='responses-familyGrandchildPersonIdGet-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Person tidak memiliki grandchild",
+  "description" : "Validasi parameter gagal",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
+        "$ref" : "#/components/schemas/inline_response_400_1"
       },
       "examples" : {
         "default" : {
-          "description" : "Contoh person tidak memiliki grandchild",
+          "description" : "Contoh validasi parameter gagal",
           "value" : {
-            "message" : "Person tidak memiliki grandchild"
+            "jenisKelamin" : [ "The selected jenis kelamin is invalid." ]
           }
         }
       }
@@ -2601,14 +2737,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyGrandchildPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyGrandchildPersonIdGet-204-schema-204');
+                                        $('#responses-familyGrandchildPersonIdGet-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-familyGrandchildPersonIdGet-400-schema-400');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-familyGrandchildPersonIdGet-204-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-familyGrandchildPersonIdGet-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -2723,7 +2859,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            Person result = apiInstance.familyGrandparentPersonIdGet(personId);
+            inline_response_200_1 result = apiInstance.familyGrandparentPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyGrandparentPersonIdGet");
@@ -2742,7 +2878,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            Person result = apiInstance.familyGrandparentPersonIdGet(personId);
+            inline_response_200_1 result = apiInstance.familyGrandparentPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyGrandparentPersonIdGet");
@@ -2762,7 +2898,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 
 // Mendapatkan grandparent dari person tertentu
 [apiInstance familyGrandparentPersonIdGetWith:personId
-              completionHandler: ^(Person output, NSError* error) {
+              completionHandler: ^(inline_response_200_1 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2813,7 +2949,7 @@ namespace Example
             try
             {
                 // Mendapatkan grandparent dari person tertentu
-                Person result = apiInstance.familyGrandparentPersonIdGet(personId);
+                inline_response_200_1 result = apiInstance.familyGrandparentPersonIdGet(personId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2935,11 +3071,22 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Person"
+        "$ref" : "#/components/schemas/inline_response_200_1"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/Person"
+          "description" : "Contoh hasil grandparent",
+          "value" : {
+            "result" : {
+              "id" : 1,
+              "nama" : "Budi",
+              "jenisKelamin" : "laki-laki"
+            }
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil grandparent tidak tersedia",
+          "value" : { }
         }
       }
     }
@@ -2966,62 +3113,6 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-familyGrandparentPersonIdGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 204 - Person tidak memiliki grandparent </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyGrandparentPersonIdGet-204-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyGrandparentPersonIdGet-204-schema">
-                                  <div id='responses-familyGrandparentPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Person tidak memiliki grandparent",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
-      },
-      "examples" : {
-        "default" : {
-          "description" : "Contoh person tidak memiliki grandparent",
-          "value" : {
-            "message" : "Person tidak memiliki grandparent"
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyGrandparentPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyGrandparentPersonIdGet-204-schema-204');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-familyGrandparentPersonIdGet-204-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -3136,7 +3227,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            Person result = apiInstance.familyParentPersonIdGet(personId);
+            inline_response_200_1 result = apiInstance.familyParentPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyParentPersonIdGet");
@@ -3155,7 +3246,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            Person result = apiInstance.familyParentPersonIdGet(personId);
+            inline_response_200_1 result = apiInstance.familyParentPersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyParentPersonIdGet");
@@ -3175,7 +3266,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 
 // Mendapatkan parent dari person tertentu
 [apiInstance familyParentPersonIdGetWith:personId
-              completionHandler: ^(Person output, NSError* error) {
+              completionHandler: ^(inline_response_200_1 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3226,7 +3317,7 @@ namespace Example
             try
             {
                 // Mendapatkan parent dari person tertentu
-                Person result = apiInstance.familyParentPersonIdGet(personId);
+                inline_response_200_1 result = apiInstance.familyParentPersonIdGet(personId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3348,11 +3439,23 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Person"
+        "$ref" : "#/components/schemas/inline_response_200_1"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/Person"
+          "description" : "Contoh hasil parent",
+          "value" : {
+            "result" : {
+              "id" : 2,
+              "nama" : "Dedi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil parent tidak tersedia",
+          "value" : { }
         }
       }
     }
@@ -3379,62 +3482,6 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-familyParentPersonIdGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 204 - Person tidak memiliki parent </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyParentPersonIdGet-204-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyParentPersonIdGet-204-schema">
-                                  <div id='responses-familyParentPersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Person tidak memiliki parent",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
-      },
-      "examples" : {
-        "default" : {
-          "description" : "Contoh person tidak memiliki parent",
-          "value" : {
-            "message" : "Person tidak memiliki parent"
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyParentPersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyParentPersonIdGet-204-schema-204');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-familyParentPersonIdGet-204-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -3779,18 +3826,18 @@ except ApiException as e:
                                 </div>
                             </div>
 
-                            <h3> Status: 204 - Hirarki keluarga tidak tersedia </h3>
+                            <h3> Status: 404 - Hirarki keluarga tidak tersedia </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyTreeGet-204-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-familyTreeGet-404-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyTreeGet-204-schema">
-                                  <div id='responses-familyTreeGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-familyTreeGet-404-schema">
+                                  <div id='responses-familyTreeGet-404-schema-404' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -3798,7 +3845,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
+        "$ref" : "#/components/schemas/inline_response_404_1"
       },
       "examples" : {
         "default" : {
@@ -3824,14 +3871,70 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyTreeGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyTreeGet-204-schema-204');
+                                        $('#responses-familyTreeGet-404-schema-data').val(stringify(schema));
+                                        var result = $('#responses-familyTreeGet-404-schema-404');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-familyTreeGet-204-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-familyTreeGet-404-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Gagal mendapatkan hirarki keluarga </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-familyTreeGet-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-familyTreeGet-500-schema">
+                                  <div id='responses-familyTreeGet-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Gagal mendapatkan hirarki keluarga",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Error"
+      },
+      "examples" : {
+        "default" : {
+          "description" : "Contoh gagal mendapatkan hirarki keluarga",
+          "value" : {
+            "error" : "Gagal mendapatkan hirarki keluarga"
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-familyTreeGet-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-familyTreeGet-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-familyTreeGet-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -3890,7 +3993,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            People result = apiInstance.familyUnclePersonIdGet(personId);
+            inline_response_200_2 result = apiInstance.familyUnclePersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyUnclePersonIdGet");
@@ -3909,7 +4012,7 @@ public class FamilyApiExample {
         FamilyApi apiInstance = new FamilyApi();
         Integer personId = 56; // Integer | Id milik person
         try {
-            People result = apiInstance.familyUnclePersonIdGet(personId);
+            inline_response_200_2 result = apiInstance.familyUnclePersonIdGet(personId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FamilyApi#familyUnclePersonIdGet");
@@ -3929,7 +4032,7 @@ FamilyApi *apiInstance = [[FamilyApi alloc] init];
 
 // Mendapatkan uncle dari person tertentu
 [apiInstance familyUnclePersonIdGetWith:personId
-              completionHandler: ^(People output, NSError* error) {
+              completionHandler: ^(inline_response_200_2 output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -3980,7 +4083,7 @@ namespace Example
             try
             {
                 // Mendapatkan uncle dari person tertentu
-                People result = apiInstance.familyUnclePersonIdGet(personId);
+                inline_response_200_2 result = apiInstance.familyUnclePersonIdGet(personId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4083,7 +4186,7 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Berhasil mendapatkan uncle dari person </h3>
+                            <h3> Status: 200 - Berhasil mendapatkan uncles dari person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -4098,15 +4201,39 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Berhasil mendapatkan uncle dari person",
+  "description" : "Berhasil mendapatkan uncles dari person",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/People"
+        "$ref" : "#/components/schemas/inline_response_200_2"
       },
       "examples" : {
         "default" : {
-          "$ref" : "#/components/examples/People"
+          "description" : "Contoh hasil uncles",
+          "value" : {
+            "result" : [ {
+              "id" : 2,
+              "nama" : "Dedi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 3,
+              "nama" : "Dodi",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            }, {
+              "id" : 4,
+              "nama" : "Dede",
+              "jenisKelamin" : "laki-laki",
+              "parentId" : 1
+            } ]
+          }
+        },
+        "notExist" : {
+          "description" : "Contoh hasil uncles tidak tersedia",
+          "value" : {
+            "result" : [ ]
+          }
         }
       }
     }
@@ -4133,62 +4260,6 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-familyUnclePersonIdGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 204 - Person tidak memiliki uncle </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-familyUnclePersonIdGet-204-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-familyUnclePersonIdGet-204-schema">
-                                  <div id='responses-familyUnclePersonIdGet-204-schema-204' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Person tidak memiliki uncle",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/inline_response_204"
-      },
-      "examples" : {
-        "default" : {
-          "description" : "Contoh person tidak memiliki uncle",
-          "value" : {
-            "message" : "Person tidak memiliki uncle"
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-familyUnclePersonIdGet-204-schema-data').val(stringify(schema));
-                                        var result = $('#responses-familyUnclePersonIdGet-204-schema-204');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-familyUnclePersonIdGet-204-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -5722,6 +5793,62 @@ except ApiException as e:
                                 </div>
                             </div>
 
+                            <h3> Status: 400 - Validasi input gagal </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-personPersonIdPut-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-personPersonIdPut-400-schema">
+                                  <div id='responses-personPersonIdPut-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Validasi input gagal",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_400"
+      },
+      "examples" : {
+        "default" : {
+          "description" : "Contoh validasi gagal",
+          "value" : {
+            "nama" : [ "The nama field is required." ]
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-personPersonIdPut-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-personPersonIdPut-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-personPersonIdPut-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
                             <h3> Status: 404 - Tidak dapat menemukan person </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
@@ -6164,6 +6291,62 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-personPost-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Validasi input gagal </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-personPost-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-personPost-400-schema">
+                                  <div id='responses-personPost-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Validasi input gagal",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/inline_response_400"
+      },
+      "examples" : {
+        "default" : {
+          "description" : "Contoh validasi gagal",
+          "value" : {
+            "nama" : [ "The nama field is required." ]
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-personPost-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-personPost-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-personPost-400-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
