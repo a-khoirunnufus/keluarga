@@ -74,6 +74,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
           "409": {
             "description": "Gagal menambahkan record person baru",
             "content": {
@@ -165,6 +168,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -881,6 +887,49 @@
                 "description": "Contoh gagal menemukan person",
                 "value": {
                   "error": "Person tidak tersedia"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Validasi input gagal",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nama": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi gagal",
+                    "type": "string"
+                  }
+                },
+                "jenisKelamin": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi gagal",
+                    "type": "string"
+                  }
+                },
+                "parentId": {
+                  "type": "array",
+                  "items": {
+                    "description": "pesan keterangan validasi gagal",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "examples": {
+              "default": {
+                "description": "Contoh validasi gagal",
+                "value": {
+                  "nama": [
+                    "The nama field is required."
+                  ]
                 }
               }
             }

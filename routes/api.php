@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PersonApiController;
+use App\Http\Controllers\FamilyApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,10 @@ use App\Http\Controllers\PersonApiController;
 |
 */
 
-Route::get('/person/tree', [PersonApiController::class, 'getTree']);
+Route::get('/person', [PersonApiController::class, 'getAll']);
+Route::post('/person', [PersonApiController::class, 'store']);
+Route::get('/person/{personId}', [PersonApiController::class, 'get']);
+Route::put('/person/{personId}', [PersonApiController::class, 'update']);
+Route::delete('/person/{personId}', [PersonApiController::class, 'destroy']);
+
+Route::get('/family/tree', [FamilyApiController::class, 'getTree']);
