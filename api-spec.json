@@ -269,33 +269,46 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Person"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/Person"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki grandparent",
-            "content": {
-              "application/json": {
-                "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "nama": {
+                          "type": "string"
+                        },
+                        "jenisKelamin": {
+                          "type": "string",
+                          "enum": ["laki-laki", "perempuan"]
+                        },
+                        "parentId": {
+                          "type": "integer",
+                          "nullable": true
+                        }
+                      },
+                      "nullable": true
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki grandparent",
+                    "description": "Contoh hasil grandparent",
                     "value": {
-                      "message": "Person tidak memiliki grandparent"
+                      "result": {
+                        "id": 1,
+                        "nama": "Budi",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": null
+                      }
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil grandparent tidak tersedia",
+                    "value": {
+                      "result": null
                     }
                   }
                 }
@@ -324,33 +337,46 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Person"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/Person"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki parent",
-            "content": {
-              "application/json": {
-                "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "nama": {
+                          "type": "string"
+                        },
+                        "jenisKelamin": {
+                          "type": "string",
+                          "enum": ["laki-laki", "perempuan"]
+                        },
+                        "parentId": {
+                          "type": "integer",
+                          "nullable": true
+                        }
+                      },
+                      "nullable": true
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki parent",
+                    "description": "Contoh hasil parent",
                     "value": {
-                      "message": "Person tidak memiliki parent"
+                      "result": {
+                        "id": 2,
+                        "nama": "Dedi",
+                        "jenisKelamin": "laki-laki",
+                        "parentId": 1
+                      }
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil parent tidak tersedia",
+                    "value": {
+                      "result": null
                     }
                   }
                 }
@@ -378,37 +404,72 @@
         ],
         "responses": {
           "200": {
-            "description": "Berhasil mendapatkan child dari person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/People"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/People"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki child",
+            "description": "Berhasil mendapatkan children dari person",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "jenisKelamin": {
+                            "type": "string",
+                            "enum": ["laki-laki", "perempuan"]
+                          },
+                          "parentId": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki child",
+                    "description": "Contoh hasil children",
                     "value": {
-                      "message": "Person tidak memiliki child"
+                      "result": [
+                        {
+                          "id": 2,
+                          "nama": "Dedi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 3,
+                          "nama": "Dodi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 4,
+                          "nama": "Dede",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 5,
+                          "nama": "Dewi",
+                          "jenisKelamin": "perempuan",
+                          "parentId": 1
+                        }
+                      ]
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil children tidak tersedia",
+                    "value": {
+                      "result": []
                     }
                   }
                 }
@@ -436,37 +497,72 @@
         ],
         "responses": {
           "200": {
-            "description": "Berhasil mendapatkan grandchild dari person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/People"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/People"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki grandchild",
+            "description": "Berhasil mendapatkan grandchildren dari person",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "jenisKelamin": {
+                            "type": "string",
+                            "enum": ["laki-laki", "perempuan"]
+                          },
+                          "parentId": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki grandchild",
+                    "description": "Contoh hasil grandchildren",
                     "value": {
-                      "message": "Person tidak memiliki grandchild"
+                      "result": [
+                        {
+                          "id": 2,
+                          "nama": "Dedi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 3,
+                          "nama": "Dodi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 4,
+                          "nama": "Dede",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 5,
+                          "nama": "Dewi",
+                          "jenisKelamin": "perempuan",
+                          "parentId": 1
+                        }
+                      ]
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil grandchildren tidak tersedia",
+                    "value": {
+                      "result": []
                     }
                   }
                 }
@@ -491,37 +587,54 @@
         ],
         "responses": {
           "200": {
-            "description": "Berhasil mendapatkan aunt dari person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/People"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/People"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki aunt",
+            "description": "Berhasil mendapatkan aunts dari person",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "jenisKelamin": {
+                            "type": "string",
+                            "enum": ["laki-laki", "perempuan"]
+                          },
+                          "parentId": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki aunt",
+                    "description": "Contoh hasil aunts",
                     "value": {
-                      "message": "Person tidak memiliki aunt"
+                      "result": [
+                        {
+                          "id": 5,
+                          "nama": "Dewi",
+                          "jenisKelamin": "perempuan",
+                          "parentId": 1
+                        }
+                      ]
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil aunts tidak tersedia",
+                    "value": {
+                      "result": []
                     }
                   }
                 }
@@ -546,37 +659,66 @@
         ],
         "responses": {
           "200": {
-            "description": "Berhasil mendapatkan uncle dari person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/People"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/People"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki uncle",
+            "description": "Berhasil mendapatkan uncles dari person",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "jenisKelamin": {
+                            "type": "string",
+                            "enum": ["laki-laki", "perempuan"]
+                          },
+                          "parentId": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki uncle",
+                    "description": "Contoh hasil uncles",
                     "value": {
-                      "message": "Person tidak memiliki uncle"
+                      "result": [
+                        {
+                          "id": 2,
+                          "nama": "Dedi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 3,
+                          "nama": "Dodi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 4,
+                          "nama": "Dede",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        }
+                      ]
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil uncles tidak tersedia",
+                    "value": {
+                      "result": []
                     }
                   }
                 }
@@ -604,37 +746,72 @@
         ],
         "responses": {
           "200": {
-            "description": "Berhasil mendapatkan cousin dari person",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/People"
-                },
-                "examples": {
-                  "default": {
-                    "$ref": "#/components/examples/People"
-                  }
-                }
-              }
-            }
-          },
-          "204": {
-            "description": "Person tidak memiliki cousin",
+            "description": "Berhasil mendapatkan cousins dari person",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string"
+                    "result": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "jenisKelamin": {
+                            "type": "string",
+                            "enum": ["laki-laki", "perempuan"]
+                          },
+                          "parentId": {
+                            "type": "integer",
+                            "nullable": true
+                          }
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
                   "default": {
-                    "description": "Contoh person tidak memiliki cousin",
+                    "description": "Contoh hasil cousins",
                     "value": {
-                      "message": "Person tidak memiliki cousin"
+                      "result": [
+                        {
+                          "id": 2,
+                          "nama": "Dedi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 3,
+                          "nama": "Dodi",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 4,
+                          "nama": "Dede",
+                          "jenisKelamin": "laki-laki",
+                          "parentId": 1
+                        },
+                        {
+                          "id": 5,
+                          "nama": "Dewi",
+                          "jenisKelamin": "perempuan",
+                          "parentId": 1
+                        }
+                      ]
+                    }
+                  },
+                  "notExist": {
+                    "description": "Contoh hasil cousins tidak tersedia",
+                    "value": {
+                      "result": []
                     }
                   }
                 }
