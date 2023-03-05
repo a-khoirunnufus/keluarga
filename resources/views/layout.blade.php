@@ -13,6 +13,7 @@
                 right: 2rem;
             }
         </style>
+        @stack('styles')
     </head>
     <body>
         <div class="container py-3">

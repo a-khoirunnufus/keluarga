@@ -2,6 +2,31 @@
 
 @section('title', 'Keluarga')
 
+@push('styles')
+    <style>
+        .nodeExample1 {
+            padding: .5rem 1rem;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+        }
+        .nodeExample1[data-gender="male"] {
+            background-color: blue;
+        }
+        .nodeExample1[data-gender="female"] {
+            background-color: deeppink;
+        }
+        .node-name {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+@endpush
+
 @section('content')
     <h1 class="mb-5">Keluarga</h1>
 
@@ -174,30 +199,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-        .nodeExample1 {
-            padding: .5rem 1rem;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 16px;
-        }
-        .nodeExample1[data-gender="male"] {
-            background-color: blue;
-        }
-        .nodeExample1[data-gender="female"] {
-            background-color: deeppink;
-        }
-        .node-name {
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            font-weight: 500;
-        }
-    </style>
-
 @endsection
 
 @push('scripts')
@@ -217,7 +218,7 @@
 
         document.getElementById('modalTree').addEventListener('shown.bs.modal', event => {
             document.querySelector('#modalTree .modal-body').innerHTML = '<p class="text-center fw-bold">Loading...</p>';
-            fetch(baseUrl+'/api/person/tree')
+            fetch(baseUrl+'/api/family/tree')
                 .then(res => res.json())
                 .then(({data}) => {
                     simple_chart_config.nodeStructure = data;

@@ -22,4 +22,11 @@ Route::get('/person/{personId}', [PersonApiController::class, 'get']);
 Route::put('/person/{personId}', [PersonApiController::class, 'update']);
 Route::delete('/person/{personId}', [PersonApiController::class, 'destroy']);
 
+Route::get('/family/grandparent/{personId}', [FamilyApiController::class, 'grandparent']);
+Route::get('/family/parent/{personId}', [FamilyApiController::class, 'parent']);
+Route::get('/family/child/{personId}', [FamilyApiController::class, 'child']);
+Route::get('/family/grandchild/{personId}', [FamilyApiController::class, 'grandchild']);
+Route::get('/family/aunt/{personId}', [FamilyApiController::class, 'aunt']);
+Route::get('/family/uncle/{personId}', [FamilyApiController::class, 'uncle']);
+Route::get('/family/cousin/{personId}', [FamilyApiController::class, 'cousin']);
 Route::get('/family/tree', [FamilyApiController::class, 'getTree']);
