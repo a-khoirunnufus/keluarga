@@ -220,7 +220,7 @@
             document.querySelector('#modalTree .modal-body').innerHTML = '<p class="text-center fw-bold">Loading...</p>';
             fetch(baseUrl+'/api/family/tree')
                 .then(res => res.json())
-                .then(({data}) => {
+                .then(data => {
                     simple_chart_config.nodeStructure = data;
                     document.querySelector('#modalTree .modal-body').innerHTML = '<div id="tree-simple"></div>';
                     const chart = new Treant(simple_chart_config);
